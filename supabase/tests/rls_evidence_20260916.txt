@@ -1,0 +1,37 @@
+== 1. Stubs auth/storage (Supabase) ==
+PASS stubs criados
+== 2. Aplicar migrations em ordem ==
+  aplicada: 20260916000001_core_schema.sql
+  aplicada: 20260916000002_rls.sql
+  aplicada: 20260916000003_storage.sql
+PASS migrations aplicadas em ordem — 3 arquivos
+== 3. Grants estilo Supabase + usuários de teste ==
+PASS grants + 2 usuários
+== 4. RLS: isolamento entre usuários ==
+PASS A insere própria transação — id=ec3af099-4b41-46a5-988f-6b20f52d8dfc
+PASS A NÃO insere transação de B — bloqueado: new row violates row-level security policy for table "transactions"
+PASS A lê SOMENTE as próprias linhas — linhas visíveis=1
+PASS A NÃO atualiza linha de B — rowcount=0
+PASS A NÃO apaga linha de B — rowcount=0
+PASS B lê SOMENTE as próprias linhas — 1 linha visível
+PASS B NÃO lê linha específica de A — 0 linhas
+== 5. Demais tabelas de usuário (spot check) ==
+PASS debts: A escreve a sua, não vê a de B; B vê a sua — A vê 1, B vê 1
+PASS goals: A escreve a sua, não vê a de B; B vê a sua — A vê 1, B vê 1
+PASS assistant_messages: A escreve a sua, não vê a de B; B vê a sua — A vê 1, B vê 1
+PASS debate_messages: A escreve a sua, não vê a de B; B vê a sua — A vê 1, B vê 1
+PASS recommendation_decisions: A escreve a sua, não vê a de B; B vê a sua — A vê 1, B vê 1
+PASS receipt_drafts: A escreve a sua, não vê a de B; B vê a sua — A vê 1, B vê 1
+PASS user_settings: A escreve a sua, não vê a de B; B vê a sua — A vê 1, B vê 1
+== 6. Tabelas macro: leitura sim, escrita não ==
+PASS macro: A LÊ ambas, mas NÃO ESCREVE observations — leitura ok (1,1); escrita bloqueada: new row violates row-level security policy for table "macro_indicator_
+PASS macro: A NÃO ALTERA refresh_state
+PASS macro: B LÊ ambas, mas NÃO ESCREVE observations — leitura ok (1,1); escrita bloqueada: new row violates row-level security policy for table "macro_indicator_
+PASS macro: B NÃO ALTERA refresh_state
+== 7. Storage receipts: isolamento por pasta ==
+PASS A faz upload na própria pasta
+PASS A NÃO faz upload na pasta de B — bloqueado: new row violates row-level security policy for table "objects"
+PASS A lista SOMENTE os próprios objetos — 1 objeto(s) visível(is)
+PASS B NÃO vê objetos de A — 0 objeto(s) visível(is)
+
+RESULTADO: 25/25 checks passaram

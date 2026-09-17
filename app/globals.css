@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+/*
+ * Identidade visual — Ecossistema Vital
+ * Primária: verde-esmeralda (emerald-700)  #047857
+ * Acento:   dourada                        #C9A227
+ * (Tokens via @theme do Tailwind v4 -> utilitários como
+ *  bg-vital-primary, text-vital-gold, border-vital-gold etc.)
+ */
+@theme {
+  --color-vital-primary: #047857;
+  --color-vital-primary-dark: #065f46;
+  --color-vital-primary-darker: #064e3b;
+  --color-vital-gold: #c9a227;
+  --color-vital-gold-soft: #e3c766;
+  --color-vital-cream: #faf7ef;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+}
